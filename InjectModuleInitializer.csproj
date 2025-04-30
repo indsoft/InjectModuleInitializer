@@ -4,25 +4,27 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>EinarEgilsson.Utilities.InjectModuleInitializer</RootNamespace>
     <AssemblyName>InjectModuleInitializer</AssemblyName>
-    <TargetFramework>net35</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <DefaultItemExcludes>*.binlog;Test\**\*.*;nuget\**\*.*</DefaultItemExcludes>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <NoWarn>NU5105</NoWarn>
 
-    <Description>Enables module initialization, as described here: http://einaregilsson.com/module-initializers-in-csharp </Description>
-    <Company>Einar Egilsson</Company>
+    <Description>This is a fork of the original project.
+Enables module initialization, as described here: http://einaregilsson.com/module-initializers-in-csharp </Description>
+    <Company>IndSoft, s.r.o.</Company>
     <Copyright>Copyright © Einar Egilsson 2009-2018</Copyright>
     
     <PackageTags>module initializer assembly constructor</PackageTags>
     <PackageLicenseUrl>https://github.com/einaregilsson/InjectModuleInitializer/blob/master/license.txt</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/einaregilsson/InjectModuleInitializer</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/indsoft/InjectModuleInitializer</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 
     <DevelopmentDependency>true</DevelopmentDependency>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <BuildOutputTargetFolder>tools</BuildOutputTargetFolder>
     <TargetsForTfmSpecificBuildOutput>IncludeCecil</TargetsForTfmSpecificBuildOutput>
+    <PackAsTool>False</PackAsTool>
   </PropertyGroup>
   
   <ItemGroup>
@@ -47,9 +49,16 @@
     <CI Condition="'$(CI)' == ''">false</CI>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsPublishable>False</IsPublishable>
+  </PropertyGroup>
+
   <Target Name="Version" DependsOnTargets="SetVersion">
-    <Message Importance="high" Text="PackageVersion=$(PackageVersion)
-AssemblyVersion=$(AssemblyVersion)" />
+    <Message Importance="high" Text="PackageVersion=$(PackageVersion)&#xD;&#xA;AssemblyVersion=$(AssemblyVersion)" />
     <Message Text="##vso[build.updatebuildnumber]$(PackageVersion)" Importance="high" Condition="'$(TF_BUILD)' == 'true'" />
   </Target>
 
@@ -61,10 +70,7 @@ AssemblyVersion=$(AssemblyVersion)" />
   </Target>
 
   <!-- '$(ExcludeRestorePackageImports)' == 'true' when invoking /t:Restore -->
-  <Target Name="SetVersion"
-          BeforeTargets="GetAssemblyVersion;GetPackageVersion;Pack"
-          DependsOnTargets="GitVersion"
-          Condition="'$(ExcludeRestorePackageImports)' != 'true' and '$(GitInfoImported)' == 'true'">
+  <Target Name="SetVersion" BeforeTargets="GetAssemblyVersion;GetPackageVersion;Pack" DependsOnTargets="GitVersion" Condition="'$(ExcludeRestorePackageImports)' != 'true' and '$(GitInfoImported)' == 'true'">
     <PropertyGroup>
       <!-- PR builds are *always* prerelease -->
       <!-- TFS case: BUILD_REASON=PullRequest and BUILD_SOURCEBRANCH=refs/pull/#/merge -->

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>IndSoft.InjectModuleInitializer</id>
+    <version>1.1.0</version>
+    <title>InjectModuleInitializer (net4.8)</title>
+    <authors>Martin.Darebny</authors>
+    <owners>INDSOFT</owners>
+    <iconUrl>http://nuget.indsoft.local/nuget-infrastructure/Icons/IndSoft.Multibinary.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>https://github.com/indsoft/InjectModuleInitializer</description>
+    <copyright>Copyright © IndSoft spol. s r. o. 2025</copyright>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Debug\*.exe" target="lib\net48" />
+    <file src="bin\Debug\*.dll" target="lib\net48" />
+    <file src="bin\Debug\*.config" target="lib\net48" />
+  </files>
+</package>
